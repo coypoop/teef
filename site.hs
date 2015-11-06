@@ -48,7 +48,6 @@ main = hakyllWith config $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/rss-description.html" defaultContext
             >>= saveSnapshot "body"
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"

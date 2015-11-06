@@ -48,7 +48,9 @@ main = hakyllWith config $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/rss-description.html"    postCtx
+            >>= loadAndApplyTemplate "templates/rss-description.html" defaultContext
+            >>= saveSnapshot "body"
+            >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
@@ -58,7 +60,7 @@ main = hakyllWith config $ do
         compile $ do
           let feedCtx = postCtx `mappend` bodyField "description"
           posts <- fmap (take 10) . recentFirst =<<
-                   loadAllSnapshots "posts/*" "content"
+                   loadAllSnapshots "posts/*" "body"
           renderRss feedConfig feedCtx posts
 
     create ["atom.xml"] $ do
@@ -66,7 +68,7 @@ main = hakyllWith config $ do
         compile $ do
           let feedCtx = postCtx `mappend` bodyField "description"
           posts <- fmap (take 10) . recentFirst =<<
-                   loadAllSnapshots "posts/*" "content"
+                   loadAllSnapshots "posts/*" "body"
           renderAtom feedConfig feedCtx posts
 
     create ["archive.html"] $ do

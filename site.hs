@@ -10,11 +10,11 @@ config = defaultConfiguration
 
 feedConfig :: FeedConfiguration
 feedConfig = FeedConfiguration
-     { feedTitle       = "bitemyapp"
-     , feedDescription = "FP/Haskell blog"
-     , feedAuthorName  = "Chris Allen"
-     , feedAuthorEmail = "cma@bitemyapp.com"
-     , feedRoot        = "http://bitemyapp.com/"
+     { feedTitle       = "beastie.pl"
+     , feedDescription = "Sektor BSD"
+     , feedAuthorName  = ""
+     , feedAuthorEmail = ""
+     , feedRoot        = "http://beastie.pl"
      }
 
 main :: IO ()

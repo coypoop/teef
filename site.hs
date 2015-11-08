@@ -88,7 +88,7 @@ main = hakyllWith config $ do
     match "index.html" $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< loadAllSnapshots "posts/*" "body"
             let indexCtx =
                     listField "posts" postCtx (return posts) `mappend`
                     constField "title" "Home"                `mappend`
@@ -103,7 +103,11 @@ main = hakyllWith config $ do
 
 
 --------------------------------------------------------------------------------
+shortenedBodyField :: String -> Context String
+shortenedBodyField key = field key $ return . (++ "...") . unwords . take 30 . words . itemBody
+
 postCtx :: Context String
 postCtx =
+    shortenedBodyField "text"   `mappend`
     dateField "date" "%e %B %Y" `mappend`
     defaultContext
